@@ -4,10 +4,20 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+interface ICP {
+  id: string
+  title: string
+  description: string
+  industries?: string[]
+  geographic_regions?: string[]
+  created_at: string
+  companies?: { name: string }
+}
+
 export default function Dashboard() {
   const { user, loading: authLoading } = useRequireAuth()
   const { signOut } = useAuth()
-  const [icps, setIcps] = useState<any[]>([])
+  const [icps, setIcps] = useState<ICP[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -25,8 +35,6 @@ export default function Dashboard() {
 
       if (error) throw error
       setIcps(data || [])
-    } catch (err) {
-      // Error already logged by API
     } finally {
       setLoading(false)
     }
